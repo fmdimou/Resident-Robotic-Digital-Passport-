@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Robotic Surgery Passport — USF Health / TGH</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green-deep: #1a2e1a;
+    --green-mid: #2d5a2d;
+    --green-light: #f0f7f0;
+    --gold: #d4b96a;
+    --gold-muted: #a8944d;
+    --gold-dark: #7a6a3a;
+    --bg: #f5f5f2;
+    --surface: #ffffff;
+    --surface-2: #f1f0ed;
+    --border: rgba(0,0,0,0.1);
+    --border-strong: rgba(0,0,0,0.18);
+    --text-1: #1a1a18;
+    --text-2: #5a5a55;
+    --text-3: #9a9a93;
+    --blue-bg: #e6f1fb; --blue-text: #0c447c;
+    --amber-bg: #faeeda; --amber-text: #633806;
+    --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #161614;
+      --surface: #1e1e1b;
+      --surface-2: #252522;
+      --border: rgba(255,255,255,0.08);
+      --border-strong: rgba(255,255,255,0.15);
+      --text-1: #e8e8e2;
+      --text-2: #9a9a90;
+      --text-3: #5a5a55;
+      --green-light: #0d1f0d;
+      --blue-bg: #042c53; --blue-text: #85b7eb;
+      --amber-bg: #412402; --amber-text: #fac775;
+    }
+  }
+
+  html, body { min-height: 100%; background: var(--bg); font-family: var(--font); color: var(--text-1); }
+
+  body { padding: 1.5rem 1rem 3rem; }
+
+  .wrap { max-width: 700px; margin: 0 auto; }
+
+  /* Cover */
+  .cover {
+    background: var(--green-deep);
+    border-radius: 14px;
+    padding: 2.25rem 2rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    border: 1px solid #3a5a3a;
+  }
+  .cover-seal {
+    width: 68px; height: 68px;
+    border: 2px solid var(--gold);
+    border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    margin-bottom: 1rem;
+    color: var(--gold);
+    font-size: 30px;
+  }
+  .cover-eyebrow { font-size: 11px; letter-spacing: 0.22em; color: var(--gold-muted); margin-bottom: 6px; font-weight: 500; }
+  .cover-title { font-size: 24px; font-weight: 600; color: var(--gold); margin-bottom: 4px; letter-spacing: 0.01em; }
+  .cover-sub { font-size: 11px; letter-spacing: 0.16em; color: var(--gold-dark); }
+
+  /* Tabs */
+  .tab-row { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 1.5rem; gap: 0; }
+  .tab { font-size: 13px; padding: 9px 16px; cursor: pointer; border: none; background: none; font-family: var(--font); color: var(--text-2); border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color 0.15s; }
+  .tab:hover { color: var(--text-1); }
+  .tab.active { color: var(--green-mid); border-bottom-color: var(--green-mid); font-weight: 500; }
+
+  /* Resident selector */
+  .selector-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.1rem 1.25rem;
+    margin-bottom: 1.25rem;
+    display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+  }
+  .selector-card label { font-size: 13px; color: var(--text-2); white-space: nowrap; }
+  .selector-card select, .selector-card input[type=text] {
+    flex: 1; min-width: 150px; font-size: 14px; font-family: var(--font);
+    background: var(--surface-2); color: var(--text-1);
+    border: 1px solid var(--border); border-radius: 8px;
+    padding: 7px 10px; outline: none;
+  }
+  .selector-card select:focus, .selector-card input:focus { border-color: var(--green-mid); }
+  .btn-add {
+    font-size: 13px; padding: 7px 14px;
+    background: var(--green-deep); color: var(--gold);
+    border: none; border-radius: 8px; cursor: pointer;
+    font-family: var(--font); white-space: nowrap;
+    transition: background 0.15s;
+  }
+  .btn-add:hover { background: var(--green-mid); }
+
+  /* Stats */
+  .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 1.25rem; }
+  .stat-card { background: var(--surface-2); border-radius: 10px; padding: 1rem; text-align: center; }
+  .stat-label { font-size: 11px; color: var(--text-3); margin-bottom: 5px; letter-spacing: 0.05em; }
+  .stat-value { font-size: 26px; font-weight: 600; color: var(--text-1); line-height: 1; }
+  .stat-goal { font-size: 11px; color: var(--text-3); margin-top: 4px; }
+
+  /* Progress */
+  .progress-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.1rem 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+  .progress-header { display: flex; justify-content: space-between; font-size: 13px; color: var(--text-2); margin-bottom: 10px; }
+  .progress-track { height: 10px; background: var(--surface-2); border-radius: 99px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--green-mid); border-radius: 99px; transition: width 0.5s ease; }
+
+  /* Stamps */
+  .stamps-section { margin-bottom: 1.25rem; }
+  .stamps-eyebrow { font-size: 11px; letter-spacing: 0.12em; color: var(--text-3); margin-bottom: 10px; font-weight: 500; }
+  .stamps-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+  .stamp {
+    aspect-ratio: 1; border: 1.5px dashed var(--border-strong);
+    border-radius: 10px; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; padding: 6px;
+    text-align: center; position: relative; overflow: hidden;
+  }
+  .stamp.filled { border: 2px solid var(--green-mid); background: var(--green-light); }
+  .stamp-num { font-size: 20px; font-weight: 600; color: var(--text-3); }
+  .stamp.filled .stamp-num { color: var(--green-mid); }
+  .stamp-proc { font-size: 8.5px; color: var(--green-mid); line-height: 1.2; margin-top: 2px; width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .stamp-role-badge { font-size: 8px; background: var(--green-mid); color: #d4edda; padding: 2px 5px; border-radius: 3px; margin-top: 3px; }
+  .stamp-empty-label { font-size: 9px; color: var(--text-3); margin-top: 2px; opacity: 0.5; }
+
+  /* Log form */
+  .log-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+  .log-card h3 { font-size: 14px; font-weight: 500; color: var(--text-1); margin-bottom: 1rem; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+  .form-row.single { grid-template-columns: 1fr; }
+  .form-group label { font-size: 12px; color: var(--text-2); display: block; margin-bottom: 4px; }
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%; font-size: 14px; font-family: var(--font);
+    background: var(--surface-2); color: var(--text-1);
+    border: 1px solid var(--border); border-radius: 8px;
+    padding: 7px 10px; outline: none;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--green-mid); }
+  .form-group textarea { height: 64px; resize: vertical; }
+  .btn-stamp {
+    width: 100%; margin-top: 10px; font-size: 14px; padding: 9px;
+    background: var(--green-deep); color: var(--gold);
+    border: none; border-radius: 8px; cursor: pointer;
+    font-family: var(--font); font-weight: 500; transition: background 0.15s;
+  }
+  .btn-stamp:hover { background: var(--green-mid); }
+
+  /* Table */
+  .table-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 1.25rem; }
+  .table-card table { width: 100%; border-collapse: collapse; font-size: 13px; table-layout: fixed; }
+  .table-card th { background: var(--surface-2); font-weight: 500; font-size: 11px; letter-spacing: 0.04em; color: var(--text-2); padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--border); }
+  .table-card td { padding: 8px 10px; border-bottom: 1px solid var(--border); color: var(--text-1); vertical-align: top; word-break: break-word; }
+  .table-card tr:last-child td { border-bottom: none; }
+  .role-badge { font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: 500; display: inline-block; }
+  .role-P { background: var(--green-light); color: var(--green-mid); }
+  .role-A { background: var(--blue-bg); color: var(--blue-text); }
+  .role-O { background: var(--amber-bg); color: var(--amber-text); }
+  .del-btn { background: none; border: none; cursor: pointer; color: var(--text-3); padding: 0; font-size: 14px; }
+  .del-btn:hover { color: #a32d2d; }
+
+  /* Admin */
+  .admin-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 1.25rem; }
+  .admin-hd { background: var(--green-deep); color: var(--gold); padding: 10px 14px; font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 8px; }
+  .admin-body { padding: 0.25rem 0; }
+  .admin-row { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .admin-row:last-child { border-bottom: none; }
+  .admin-name { font-weight: 500; flex: 1; color: var(--text-1); }
+  .admin-count { color: var(--text-2); white-space: nowrap; font-size: 12px; }
+  .admin-bar { width: 80px; height: 6px; background: var(--surface-2); border-radius: 99px; overflow: hidden; flex-shrink: 0; }
+  .admin-bar-fill { height: 100%; background: var(--green-mid); border-radius: 99px; }
+  .admin-done { font-size: 10px; color: var(--green-mid); font-weight: 600; white-space: nowrap; }
+
+  .empty { text-align: center; padding: 2rem; color: var(--text-3); font-size: 13px; }
+  .toast { position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%); background: var(--green-deep); color: var(--gold); font-size: 13px; padding: 8px 20px; border-radius: 99px; opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 999; }
+  .toast.show { opacity: 1; }
+
+  @media (max-width: 480px) {
+    .form-row { grid-template-columns: 1fr; }
+    .stats-row { grid-template-columns: repeat(3, 1fr); }
+    .stamps-grid { grid-template-columns: repeat(5, 1fr); }
+    .selector-card { flex-direction: column; }
+    .selector-card select, .selector-card input[type=text] { width: 100%; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="cover">
+    <div class="cover-seal" aria-hidden="true"><i class="ti ti-robot"></i></div>
+    <div class="cover-eyebrow">USF HEALTH · TAMPA GENERAL HOSPITAL</div>
+    <div class="cover-title">Robotic Surgery Passport</div>
+    <div class="cover-sub">PGY-1 · SURGICAL RESIDENCY PROGRAM</div>
+  </div>
+
+  <div class="tab-row">
+    <button class="tab active" onclick="switchTab('resident', this)">Resident view</button>
+    <button class="tab" onclick="switchTab('admin', this)">Program director view</button>
+  </div>
+
+  <!-- RESIDENT TAB -->
+  <div id="tab-resident">
+    <div class="selector-card">
+      <label for="residentSelect">Resident</label>
+      <select id="residentSelect" onchange="loadResident()">
+        <option value="">— select resident —</option>
+      </select>
+      <input type="text" id="newResidentInput" placeholder="Add new resident name" />
+      <button class="btn-add" onclick="addResident()">Add resident</button>
+    </div>
+
+    <div id="passport-body" style="display:none;">
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-label">TOTAL CASES</div>
+          <div class="stat-value" id="statTotal">0</div>
+          <div class="stat-goal">goal: 10</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">AS PRIMARY</div>
+          <div class="stat-value" id="statPrimary">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">PROCEDURES</div>
+          <div class="stat-value" id="statUnique">0</div>
+        </div>
+      </div>
+
+      <div class="progress-card">
+        <div class="progress-header">
+          <span>Case progress toward goal</span>
+          <span id="progressLabel">0 / 10</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      </div>
+
+      <div class="stamps-section">
+        <div class="stamps-eyebrow">CASE STAMPS</div>
+        <div class="stamps-grid" id="stampsGrid"></div>
+      </div>
+
+      <div class="log-card">
+        <h3>Log a case</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="caseDate">Date</label>
+            <input type="date" id="caseDate" />
+          </div>
+          <div class="form-group">
+            <label for="caseRole">Role</label>
+            <select id="caseRole">
+              <option value="P">Primary surgeon</option>
+              <option value="A">Assistant</option>
+              <option value="O">Observer</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="caseProcedure">Procedure</label>
+            <input type="text" id="caseProcedure" placeholder="e.g. Robotic sleeve gastrectomy" />
+          </div>
+          <div class="form-group">
+            <label for="caseAttending">Attending surgeon</label>
+            <input type="text" id="caseAttending" placeholder="e.g. Dr. Dimou" />
+          </div>
+        </div>
+        <div class="form-row single">
+          <div class="form-group">
+            <label for="caseNotes">Notes</label>
+            <textarea id="caseNotes" placeholder="Console time, steps completed, learning points..."></textarea>
+          </div>
+        </div>
+        <button class="btn-stamp" onclick="logCase()">Stamp case into passport</button>
+      </div>
+
+      <div class="table-card">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:28px;">#</th>
+              <th style="width:82px;">Date</th>
+              <th>Procedure</th>
+              <th style="width:68px;">Role</th>
+              <th style="width:110px;">Attending</th>
+              <th style="width:24px;"></th>
+            </tr>
+          </thead>
+          <tbody id="caseTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="no-resident-msg" class="empty">Select or add a resident to view their passport.</div>
+  </div>
+
+  <!-- ADMIN TAB -->
+  <div id="tab-admin" style="display:none;">
+    <div class="admin-card">
+      <div class="admin-hd"><i class="ti ti-chart-bar" aria-hidden="true"></i> All residents — case summary</div>
+      <div class="admin-body" id="adminBody"><div class="empty">No residents added yet.</div></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  var KEY = 'robotic_passport_v1';
+  var data = {};
+  try { data = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch(e) {}
+  if (!data.residents) data.residents = [];
+  if (!data.cases) data.cases = {};
+
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(data)); } catch(e) {} }
+
+  function toast(msg) {
+    var t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    setTimeout(function(){ t.classList.remove('show'); }, 2200);
+  }
+
+  function switchTab(name, el) {
+    document.querySelectorAll('.tab').forEach(function(b){ b.classList.remove('active'); });
+    el.classList.add('active');
+    document.getElementById('tab-resident').style.display = name === 'resident' ? '' : 'none';
+    document.getElementById('tab-admin').style.display = name === 'admin' ? '' : 'none';
+    if (name === 'admin') renderAdmin();
+  }
+
+  function populateSelect() {
+    var sel = document.getElementById('residentSelect');
+    var cur = sel.value;
+    sel.innerHTML = '<option value="">— select resident —</option>';
+    data.residents.forEach(function(r){
+      var o = document.createElement('option');
+      o.value = r; o.textContent = r;
+      if (r === cur) o.selected = true;
+      sel.appendChild(o);
+    });
+  }
+
+  function addResident() {
+    var inp = document.getElementById('newResidentInput');
+    var name = inp.value.trim();
+    if (!name) return;
+    if (data.residents.indexOf(name) > -1) { toast('Resident already exists.'); inp.value = ''; return; }
+    data.residents.push(name);
+    if (!data.cases[name]) data.cases[name] = [];
+    save(); populateSelect();
+    document.getElementById('residentSelect').value = name;
+    inp.value = '';
+    loadResident();
+    toast('Resident added.');
+  }
+
+  function loadResident() {
+    var name = document.getElementById('residentSelect').value;
+    document.getElementById('passport-body').style.display = name ? '' : 'none';
+    document.getElementById('no-resident-msg').style.display = name ? 'none' : '';
+    if (name) renderPassport(name);
+  }
+
+  function renderPassport(name) {
+    var cases = data.cases[name] || [];
+    var total = cases.length;
+    var primary = cases.filter(function(c){ return c.role === 'P'; }).length;
+    var unique = (new Set(cases.map(function(c){ return c.procedure.toLowerCase(); }))).size;
+    document.getElementById('statTotal').textContent = total;
+    document.getElementById('statPrimary').textContent = primary;
+    document.getElementById('statUnique').textContent = unique;
+    var pct = Math.min(100, Math.round((total / 10) * 100));
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressLabel').textContent = total + ' / 10';
+    renderStamps(cases);
+    renderTable(cases, name);
+  }
+
+  function renderStamps(cases) {
+    var grid = document.getElementById('stampsGrid');
+    grid.innerHTML = '';
+    for (var i = 0; i < 10; i++) {
+      var div = document.createElement('div');
+      div.className = 'stamp' + (cases[i] ? ' filled' : '');
+      if (cases[i]) {
+        var roleMap = {P:'Primary', A:'Assist', O:'Observer'};
+        div.innerHTML = '<span class="stamp-num">' + (i+1) + '</span>' +
+          '<span class="stamp-proc">' + esc(cases[i].procedure.slice(0,16)) + '</span>' +
+          '<span class="stamp-role-badge">' + (roleMap[cases[i].role]||cases[i].role) + '</span>';
+      } else {
+        div.innerHTML = '<span class="stamp-num" style="color:var(--text-3);opacity:0.3;">' + (i+1) + '</span><span class="stamp-empty-label">open</span>';
+      }
+      grid.appendChild(div);
+    }
+  }
+
+  function renderTable(cases, name) {
+    var tbody = document.getElementById('caseTableBody');
+    tbody.innerHTML = '';
+    if (!cases.length) {
+      tbody.innerHTML = '<tr><td colspan="6" class="empty">No cases logged yet.</td></tr>';
+      return;
+    }
+    cases.forEach(function(c, i){
+      var roleMap = {P:'Primary', A:'Assist', O:'Observer'};
+      var tr = document.createElement('tr');
+      tr.innerHTML = '<td>' + (i+1) + '</td>' +
+        '<td>' + esc(c.date) + '</td>' +
+        '<td>' + esc(c.procedure) + (c.notes ? '<br><span style="font-size:11px;color:var(--text-3);">' + esc(c.notes.slice(0,70)) + (c.notes.length>70?'…':'') + '</span>' : '') + '</td>' +
+        '<td><span class="role-badge role-' + c.role + '">' + (roleMap[c.role]||c.role) + '</span></td>' +
+        '<td>' + esc(c.attending) + '</td>' +
+        '<td><button class="del-btn" aria-label="Delete case" data-name="' + escAttr(name) + '" data-idx="' + i + '"><i class="ti ti-trash" aria-hidden="true"></i></button></td>';
+      tbody.appendChild(tr);
+    });
+    tbody.querySelectorAll('.del-btn').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        deleteCase(this.dataset.name, parseInt(this.dataset.idx));
+      });
+    });
+  }
+
+  function logCase() {
+    var name = document.getElementById('residentSelect').value;
+    if (!name) return;
+    var proc = document.getElementById('caseProcedure').value.trim();
+    var date = document.getElementById('caseDate').value;
+    var role = document.getElementById('caseRole').value;
+    var attending = document.getElementById('caseAttending').value.trim();
+    var notes = document.getElementById('caseNotes').value.trim();
+    if (!proc || !date) { toast('Please enter a date and procedure name.'); return; }
+    if (!data.cases[name]) data.cases[name] = [];
+    data.cases[name].push({date:date, procedure:proc, role:role, attending:attending, notes:notes});
+    save();
+    document.getElementById('caseProcedure').value = '';
+    document.getElementById('caseAttending').value = '';
+    document.getElementById('caseNotes').value = '';
+    renderPassport(name);
+    toast('Case stamped into passport.');
+  }
+
+  function deleteCase(name, idx) {
+    if (!confirm('Remove this case entry?')) return;
+    data.cases[name].splice(idx, 1);
+    save();
+    renderPassport(name);
+    toast('Case removed.');
+  }
+
+  function renderAdmin() {
+    var body = document.getElementById('adminBody');
+    if (!data.residents.length) { body.innerHTML = '<div class="empty">No residents added yet.</div>'; return; }
+    body.innerHTML = '';
+    data.residents.forEach(function(r){
+      var cases = data.cases[r] || [];
+      var total = cases.length;
+      var pct = Math.min(100, Math.round((total/10)*100));
+      var row = document.createElement('div');
+      row.className = 'admin-row';
+      row.innerHTML = '<span class="admin-name">' + esc(r) + '</span>' +
+        '<span class="admin-count">' + total + ' / 10</span>' +
+        '<div class="admin-bar"><div class="admin-bar-fill" style="width:' + pct + '%"></div></div>' +
+        (total >= 10 ? '<span class="admin-done">Complete</span>' : '<span style="font-size:11px;color:var(--text-3);">' + pct + '%</span>');
+      body.appendChild(row);
+    });
+  }
+
+  function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+  function escAttr(s) { return String(s||'').replace(/'/g,"\\'"); }
+
+  populateSelect();
+  document.getElementById('caseDate').value = new Date().toISOString().split('T')[0];
+</script>
+</body>
+</html>
